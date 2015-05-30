@@ -10,8 +10,8 @@
 ## Functionality
 
 ## Files
- * bin/check-syncrepl
- * bin/metrics-ldap
+ * bin/check-syncrepl.rb
+ * bin/metrics-ldap.rb
 
 ## Usage
 
