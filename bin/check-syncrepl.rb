@@ -3,7 +3,9 @@
 #   check-syncrepl
 #
 # DESCRIPTION:
-#   This plugin checks OpenLDAP nodes to veryfiy syncrepl is working.
+#   This plugin checks that OpenLDAP Sync replication is working by
+#   comparing the context change sequence number (contextCSN) of
+#   a list of servers.
 #   The plugin will attempt to use an unauthenticated connection if no
 #   user name (with the -u or --user option) and password (with the -p
 #   or --password option) are specified.
@@ -22,13 +24,13 @@
 #   bind to LDAP without authorisation
 #   ----------------------------------
 #   ./check-syncrepl.rb -h 'ldap1.domain,ldap2.domain'
-#   will compare the contextCSN of the ldap servers ldap1.domain and
+#   will compare the contextCSN of the LDAP servers ldap1.domain and
 #   ldap2.domain
 #
 #   bind to LDAP requiring authorisation
 #   ------------------------------------
 #   ./check-syncrepl.rb -h 'ldap1.domain,ldap2.domain' -u auser -p passwd
-#   will bind to the ldap servers ldap1.domain and ldap2.domain as user
+#   will bind to the LDAP servers ldap1.domain and ldap2.domain as user
 #   auser with password passwd and compare the contextCSN
 #
 # NOTES:
@@ -46,7 +48,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
   option :hosts,
          short: '-h HOSTS',
          long: '--hosts HOSTS',
-         description: 'Comma seperated list of hosts to compare',
+         description: 'Comma separated list of hosts to compare',
          required: true,
          proc: proc { |hosts| hosts.split(',') }
 
@@ -146,7 +148,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
     end
 
     # Hit max retries, report latest differences
-    message = 'ContextCSNs differe between: '
+    message = 'ContextCSNs differ between: '
 
     joined = []
     @differences.each do |different|
