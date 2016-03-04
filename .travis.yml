@@ -16,16 +16,19 @@ notifications:
     on_failure: always
 script:
 - bundle exec rake default
+- gem build sensu-plugins-openldap.gemspec
+- gem install sensu-plugins-openldap-*.gem
 deploy:
   provider: rubygems
   api_key:
-    secure: L94bdR7g+ZTrqlMPHPe1ME2B1jJlVmKAn3ktpxpgfQR2QQwJvndJg9Rgdk+WoV/T7mpwKhG5zFWAEtKuJzY4wB9Wz+/6BA/GHEk7pXpwJJovVv2lllCjXagN16dt74ihZCkO+41CeAZDJCIcq18xTL7XyNu/ofDU3vxCkjSgoKk=
+    secure: gSFNFoXrqip8sufCftLq0IW64lMcMsJpDxhDRuKW65gzJ+Pf60GYEHuwyNHM3o0lSzTM6X0YYXyGNqBOqheXqn+2c7FhW6MddAfVSNhkTD4OZ7bAreEdYGn4IyhDRpZ4B+Vm4Hs+/IY9ojvqHjf/QEj6IuKvvtrl+Ts5rz8rGZ0=
   gem: sensu-plugins-openldap
   on:
     tags: true
-    all_branches: true
+    repo: sensu-plugins/sensu-plugins-openldap
+      all_branches: true
     rvm: 1.9.3
     rvm: 2.0
     rvm: 2.1
     rvm: 2.2
-    repo: sensu-plugins/sensu-plugins-openldap
+

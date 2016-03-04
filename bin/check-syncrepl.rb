@@ -140,11 +140,11 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
       @differences = []
       combinations = csns.keys.combination(2).to_a
       combinations.each do |hosts|
-        @differences << hosts if (csns[hosts[0]] - csns[hosts[1]]).length > 0
+        @differences << hosts if (csns[hosts[0]] - csns[hosts[1]]).length > 0 # rubocop:disable Style/ZeroLengthPredicate
       end
 
       # If everything is OK, no need to retry
-      ok 'All nodes are in sync' if @differences.length == 0
+      ok 'All nodes are in sync' if @differences.length == 0 # rubocop:disable Style/ZeroLengthPredicate
     end
 
     # Hit max retries, report latest differences
