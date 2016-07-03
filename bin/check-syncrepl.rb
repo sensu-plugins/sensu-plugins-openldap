@@ -80,6 +80,23 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
          long: '--insecure',
          description: 'Do not use encryption'
 
+  option :encryption,
+         short: '-e ENCRYPTION',
+         long: '--encryption ENCRYPTION',
+         description: 'Encryption method to use. Either simple_tls or start_tls',
+         default: nil,
+         proc: proc(&:to_sym)
+
+  option :cacert,
+         long: '--ca-certificate ENCRYPTION',
+         description: 'Trusted CA certificate for checking the endpoint validity',
+         default: nil
+
+  option :cert,
+         long: '--certificate ENCRYPTION',
+         description: 'Client certificate',
+         default: nil
+
   option :retries,
          short: '-r RETRIES',
          long: '--retries RETRIES',
@@ -101,8 +118,18 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
                            port: config[:port]
     end
 
-    unless config[:insecure]
-      ldap.encryption(method: :simple_tls)
+    unless (config[:insecure] && config[:encryption].nil?) || config[:encryption] == :none
+      config[:encryption] ||= :simple_tls
+      tls_options = {
+        verify_mode: (config[:insecure] ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER)
+      }
+      if config[:cacert]
+        tls_options[:ca_file] = config[:cacert]
+      end
+      if config[:cert]
+        tls_options[:cert] = open(config[:cert]) { |i| OpenSSL::X509::Certificate.new(i) }
+      end
+      ldap.encryption(method: config[:encryption], tls_options: tls_options)
     end
 
     begin
@@ -118,11 +145,12 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
         critical message
       end
     end
-  rescue
+  rescue => e
     message = "Cannot connect to #{host}:#{config[:port]}"
     if config[:user]
       message += " as #{config[:user]}"
     end
+    message += e.inspect
     critical message
   end
 
