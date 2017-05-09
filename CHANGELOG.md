@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
-
+ - Fix #3 : metrics-ldap.rb Error Cannot connect to (@roumano)
 ## [1.0.0] - 2017-01-17
 ### Added
 - check-syncrepl.rb: Add `--ca-certificate`, `--certificate` and `--encryption` options (@moriyoshi)
