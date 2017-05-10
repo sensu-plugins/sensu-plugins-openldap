@@ -98,7 +98,7 @@ class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
 
     begin
       if ldap.bind
-        message += 'So far'
+        message = 'So far'
         metrics = {
           conn_total: {
             title: 'connections.total',
