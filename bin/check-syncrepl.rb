@@ -1,4 +1,6 @@
 #! /usr/bin/env ruby
+# frozen_string_literal: false
+
 #
 #   check-syncrepl
 #
@@ -105,7 +107,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i)
 
   def get_csns(host)
-    if config[:user]
+    if config[:user] # rubocop:disable Style/ConditionalAssignment
       ldap = Net::LDAP.new host: host,
                            port: config[:port],
                            auth: {
@@ -127,7 +129,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
         tls_options[:ca_file] = config[:cacert]
       end
       if config[:cert]
-        tls_options[:cert] = open(config[:cert]) { |i| OpenSSL::X509::Certificate.new(i) }
+        tls_options[:cert] = open(config[:cert]) { |i| OpenSSL::X509::Certificate.new(i) } # rubocop:disable Security/Open
       end
       ldap.encryption(method: config[:encryption], tls_options: tls_options)
     end
@@ -145,7 +147,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
         critical message
       end
     end
-  rescue => e
+  rescue StandardError
     message = "Cannot connect to #{host}:#{config[:port]}"
     if config[:user]
       message += " as #{config[:user]}"
@@ -168,11 +170,11 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
       @differences = []
       combinations = csns.keys.combination(2).to_a
       combinations.each do |hosts|
-        @differences << hosts if (csns[hosts[0]] - csns[hosts[1]]).length > 0 # rubocop:disable Style/ZeroLengthPredicate
+        @differences << hosts if (csns[hosts[0]] - csns[hosts[1]]).length > 0 # rubocop:disable all
       end
 
       # If everything is OK, no need to retry
-      ok 'All nodes are in sync' if @differences.length == 0 # rubocop:disable Style/ZeroLengthPredicate
+      ok 'All nodes are in sync' if @differences.length == 0 # rubocop:disable all
     end
 
     # Hit max retries, report latest differences

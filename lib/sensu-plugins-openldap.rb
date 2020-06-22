@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'sensu-plugins-openldap/version'
 

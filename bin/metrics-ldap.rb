@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: false
+
 #
 #   ldap-metrics.rb
 #
@@ -38,9 +40,9 @@ require 'sensu-plugin/utils'
 require 'socket'
 require 'net/ldap'
 
-include Sensu::Plugin::Utils
-
 class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
+  include Sensu::Plugin::Utils
+
   option :scheme,
          description: 'Metric naming scheme, text to prepend to metric',
          short: '-s SCHEME',
@@ -98,7 +100,6 @@ class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
 
     begin
       if ldap.bind
-        message = 'So far'
         metrics = {
           conn_total: {
             title: 'connections.total',
@@ -131,8 +132,8 @@ class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
             attribute: 'monitorCounter'
           }
         }
-        monitor_ops = %w(add modify delete search compare bind unbind)
-        %w(initiated completed).each do |state|
+        monitor_ops = %w[add modify delete search compare bind unbind]
+        %w[initiated completed].each do |state|
           monitor_ops.each do |op|
             metrics["ops_#{op}_#{state}".to_sym] = {
               title: "operations.#{op}.#{state}",
@@ -149,7 +150,7 @@ class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
             metric[:value] = entry[metric[:attribute]]
           end
         end
-        return metrics
+        return metrics # rubocop:disable Style/RedundantReturn
       else
         message = "Cannot connect to #{host}:#{config[:port]}"
         if config[:user]
@@ -158,7 +159,7 @@ class LDAPGraphite < Sensu::Plugin::Metric::CLI::Graphite
         critical message
       end
     end
-  rescue
+  rescue StandardError
     message = "Cannot connect to #{host}:#{config[:port]}"
     message += " as #{config[:user]}"
     critical message
