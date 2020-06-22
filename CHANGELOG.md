@@ -5,6 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [Unreleased]
 
+## [2.0.0] - 2020-06-22
 ### Breaking Changes
 - Update minimum required ruby version to 2.3. Drop unsupported ruby versions.
 - Bump `sensu-plugin` dependency to `~> 4.0`
@@ -46,7 +47,8 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/1.0.1...2.0.0
 [1.0.1]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/0.0.3...1.0.0
 [0.0.3]: https://github.com/sensu-plugins/sensu-plugins-openldap/compare/0.0.2...0.0.3
