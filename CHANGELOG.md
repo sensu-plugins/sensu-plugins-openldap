@@ -16,7 +16,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ### Changed
 - Updated bundler dependency to '~> 2.1'
-- Updated rubocop dependency to '~> 0.81'
+- Updated rubocop dependency to '0.81'  # last version to support Ruby 2.3
 - Updated net-ldap dependency to '0.16.2'
 - Remediated rubocop issues
 - Updated rake dependency to '~> 13.0'
