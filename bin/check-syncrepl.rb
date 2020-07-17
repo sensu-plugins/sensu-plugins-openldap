@@ -147,7 +147,7 @@ class CheckSyncrepl < Sensu::Plugin::Check::CLI
         critical message
       end
     end
-  rescue StandardError
+  rescue StandardError => e
     message = "Cannot connect to #{host}:#{config[:port]}"
     if config[:user]
       message += " as #{config[:user]}"
